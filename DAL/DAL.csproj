@@ -13,11 +13,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Repositories\" />
+    <ProjectReference Include="..\BLL\BLL.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BLL\BLL.csproj" />
+    <Folder Include="Repositories\" />
   </ItemGroup>
 
 </Project>
