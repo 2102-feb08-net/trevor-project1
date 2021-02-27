@@ -39,8 +39,16 @@ namespace DAL.Repositories
         public void DeleteCustomer(Customer customer)
         {
             using var _context = new Project1Context(_options);
-            _context.Remove(customer);
-            _context.SaveChanges();
+            var query = _context.Customers.Find(customer.ID);
+            if (query != null)
+            {
+                _context.Remove(query);
+                _context.SaveChanges();
+            }
+            else
+            {
+                throw new Exception("Couldn't find customer to delete");
+            }
         }
 
         public Customer GetCustomerByID(int id)
