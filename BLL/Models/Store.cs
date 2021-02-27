@@ -60,6 +60,11 @@ namespace BLL.Models
             GrossProfit = 0.0M;
         }
 
+        /// <summary>
+        /// Adds a new item to store inventory that doesn't already exist
+        /// </summary>
+        /// <param name="product">New product</param>
+        /// <param name="quantity">Amount to add</param>
         public void AddNewItemToInventory(Product product, int quantity)
         {
             if (Inventory.ContainsKey(product))
@@ -76,6 +81,11 @@ namespace BLL.Models
             }
         }
 
+        /// <summary>
+        /// Adds quantity for a product that already exists in store inventory
+        /// </summary>
+        /// <param name="product">Product to add quantity to</param>
+        /// <param name="quantity">Amount to add</param>
         public void AddQuantityToItem(Product product, int quantity)
         {
             if (!Inventory.ContainsKey(product))
@@ -92,6 +102,11 @@ namespace BLL.Models
             }
         }
 
+        /// <summary>
+        /// Removes quantity for a product in store inventory
+        /// </summary>
+        /// <param name="product">Product to remove quantity from</param>
+        /// <param name="quantity">Amount to remove</param>
         public void RemoveQuantityFromItem(Product product, int quantity)
         {
             if (!Inventory.ContainsKey(product))
@@ -102,9 +117,9 @@ namespace BLL.Models
             {
                 throw new ArgumentException("Can't remove 0 or less than 0 quantity from item in inventory");
             }
-            else if(quantity > Inventory[product])
+            else if(quantity >= Inventory[product])
             {
-                throw new ArgumentException("Can't remove more than what already exists for item in inventory");
+                throw new ArgumentException("Can't remove more than what already exists for item in inventory. Use Delete if you want to remove the whole product");
             }
             else
             {
@@ -112,6 +127,10 @@ namespace BLL.Models
             }
         }
 
+        /// <summary>
+        /// Deletes a product entirely from store inventory
+        /// </summary>
+        /// <param name="product">Product to delete</param>
         public void DeleteProductFromInventory(Product product)
         {
             if (!Inventory.ContainsKey(product))

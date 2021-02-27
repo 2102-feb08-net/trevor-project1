@@ -44,6 +44,11 @@ namespace BLL.Models
             Store = store;
         }
 
+        /// <summary>
+        /// Adds a product to the cart that doesn't already exist
+        /// </summary>
+        /// <param name="product">New product</param>
+        /// <param name="quantity">Amount to add</param>
         public void AddNewItemToCart(Product product, int quantity)
         {
             if (Cart.ContainsKey(product))
@@ -69,6 +74,11 @@ namespace BLL.Models
             }
         }
 
+        /// <summary>
+        /// Adds quantity to the cart for an item already in the cart
+        /// </summary>
+        /// <param name="product">Product in cart</param>
+        /// <param name="quantity">Amount to add</param>
         public void AddQuantityToCart(Product product, int quantity)
         {
             if (!Cart.ContainsKey(product))
@@ -94,6 +104,11 @@ namespace BLL.Models
             }
         }
 
+        /// <summary>
+        /// Removes quantity for an item in the cart
+        /// </summary>
+        /// <param name="product">Product in cart</param>
+        /// <param name="quantity">Amount to remove</param>
         public void RemoveQuantityFromCart(Product product, int quantity)
         {
             if (!Cart.ContainsKey(product))
@@ -104,9 +119,9 @@ namespace BLL.Models
             {
                 throw new ArgumentException("Can't remove 0 or less than 0 quantity from item in inventory");
             }
-            else if (quantity > Cart[product])
+            else if (quantity >= Cart[product])
             {
-                throw new ArgumentException("Can't remove more than what already exists for item in inventory");
+                throw new ArgumentException("Can't remove more than what already exists for item in inventory. Use delete if you want to remove the whole product");
             }
             else
             {
@@ -115,6 +130,10 @@ namespace BLL.Models
             }
         }
 
+        /// <summary>
+        /// Deletes a product from the cart entirely
+        /// </summary>
+        /// <param name="product">Product to remove</param>
         public void DeleteProductFromCart(Product product)
         {
             if (!Cart.ContainsKey(product))
@@ -128,6 +147,11 @@ namespace BLL.Models
             }
         }
 
+        /// <summary>
+        /// Computes order total and puts timestamp on order.
+        /// Call this method before making any changes to database.
+        /// Also we assume order is safe to submit because of all the validation we did in cart management.
+        /// </summary>
         public void SubmitOrder()
         {
             foreach(var item in Cart)
