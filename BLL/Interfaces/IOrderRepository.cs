@@ -37,7 +37,7 @@ namespace BLL.Interfaces
         List<Order> GetOrdersByCustomer(Customer customer);
 
         /// <summary>
-        /// Add a new order to the database
+        /// Add a new order to the database including order items
         /// </summary>
         /// <param name="order">Order to add</param>
         /// <returns>New order ID</returns>
@@ -50,7 +50,7 @@ namespace BLL.Interfaces
         void UpdateOrder(Order order);
 
         /// <summary>
-        /// Delete an order from the database
+        /// Delete an order from the database including order items
         /// </summary>
         /// <param name="order">Order to delete</param>
         void DeleteOrder(Order order);

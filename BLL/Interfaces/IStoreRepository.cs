@@ -25,7 +25,7 @@ namespace BLL.Interfaces
         List<Store> GetStores(string state = null, string city = null);
 
         /// <summary>
-        /// Add a new store to database
+        /// Add a new store to database including inventory
         /// </summary>
         /// <param name="store">Store to add</param>
         /// <returns>New store ID</returns>
@@ -38,7 +38,7 @@ namespace BLL.Interfaces
         void UpdateStore(Store store);
 
         /// <summary>
-        /// Delete a store from the database
+        /// Delete a store from the database including inventory
         /// </summary>
         /// <param name="store">Store to delete</param>
         void DeleteStore(Store store);
