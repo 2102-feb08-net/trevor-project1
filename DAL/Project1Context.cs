@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace DAL
 {
-    public partial class Project0Context : DbContext
+    public partial class Project1Context : DbContext
     {
-        public Project0Context()
+        public Project1Context()
         {
         }
 
-        public Project0Context(DbContextOptions<Project0Context> options)
+        public Project1Context(DbContextOptions<Project1Context> options)
             : base(options)
         {
         }

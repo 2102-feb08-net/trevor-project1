@@ -7,7 +7,7 @@ using BLL.Models;
 
 namespace BLL.Interfaces
 {
-    interface ICustomerRepository
+    public interface ICustomerRepository
     {
         /// <summary>
         /// Get a customer by their ID
@@ -28,7 +28,8 @@ namespace BLL.Interfaces
         /// Add a new customer to the database
         /// </summary>
         /// <param name="customer">Customer to add</param>
-        void AddCustomer(Customer customer);
+        /// <returns>New customer ID</returns>
+        int AddCustomer(Customer customer);
 
         /// <summary>
         /// Update a customer in the database

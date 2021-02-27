@@ -7,7 +7,7 @@ using BLL.Models;
 
 namespace BLL.Interfaces
 {
-    interface IStoreRepository
+    public interface IStoreRepository
     {
         /// <summary>
         /// Get a store by ID number
@@ -28,7 +28,8 @@ namespace BLL.Interfaces
         /// Add a new store to database
         /// </summary>
         /// <param name="store">Store to add</param>
-        void AddStore(Store store);
+        /// <returns>New store ID</returns>
+        int AddStore(Store store);
 
         /// <summary>
         /// Update a store in the database

@@ -7,7 +7,7 @@ using BLL.Models;
 
 namespace BLL.Interfaces
 {
-    interface IOrderRepository
+    public interface IOrderRepository
     {
         /// <summary>
         /// Get an order by ID number
@@ -40,7 +40,8 @@ namespace BLL.Interfaces
         /// Add a new order to the database
         /// </summary>
         /// <param name="order">Order to add</param>
-        void AddOrder(Order order);
+        /// <returns>New order ID</returns>
+        int AddOrder(Order order);
 
         /// <summary>
         /// Update an order in the database

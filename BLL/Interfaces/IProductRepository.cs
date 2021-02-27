@@ -7,7 +7,7 @@ using BLL.Models;
 
 namespace BLL.Interfaces
 {
-    interface IProductRepository
+    public interface IProductRepository
     {
         /// <summary>
         /// Get a product by ID number
@@ -27,7 +27,8 @@ namespace BLL.Interfaces
         /// Add a new product to database
         /// </summary>
         /// <param name="product">Product to add</param>
-        void AddProduct(Product product);
+        /// <returns>New product ID</returns>
+        int AddProduct(Product product);
 
         /// <summary>
         /// Update a product in the database
