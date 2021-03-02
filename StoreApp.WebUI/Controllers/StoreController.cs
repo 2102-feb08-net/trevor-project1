@@ -18,5 +18,35 @@ namespace StoreApp.WebUI.Controllers
         {
             _storeRepository = storeRepository;
         }
+
+        [HttpGet("api/stores")]
+        public IEnumerable<Store> GetStores(string state = null, string city = null)
+        {
+            return _storeRepository.GetStores(state, city);
+        }
+
+        [HttpGet("api/storeById")]
+        public Store GetStoreByID(int id)
+        {
+            return _storeRepository.GetStoreByID(id);
+        }
+
+        [HttpPost("api/storeAdd")]
+        public void AddStore(Store store)
+        {
+            _storeRepository.AddStore(store);
+        }
+
+        [HttpPost("api/storeDelete")]
+        public void DeleteStore(Store store)
+        {
+            _storeRepository.DeleteStore(store);
+        }
+
+        [HttpPost("api/storeUpdate")]
+        public void UpdateStore(Store store)
+        {
+            _storeRepository.UpdateStore(store);
+        }
     }
 }

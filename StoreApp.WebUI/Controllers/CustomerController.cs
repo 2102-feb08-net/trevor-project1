@@ -19,6 +19,34 @@ namespace StoreApp.WebUI.Controllers
             _customerRepository = customerRepository;
         }
 
+        [HttpGet("api/customers")]
+        public IEnumerable<Customer> GetCustomers(string firstName = null, string lastName = null)
+        {
+            return _customerRepository.GetCustomers(firstName, lastName);
+        }
 
+        [HttpGet("api/customerById")]
+        public Customer GetCustomerByID(int id)
+        {
+            return _customerRepository.GetCustomerByID(id);
+        }
+
+        [HttpPost("api/customerAdd")]
+        public void AddCustomer(Customer customer)
+        {
+            _customerRepository.AddCustomer(customer);
+        }
+
+        [HttpPost("api/customerDelete")]
+        public void DeleteCustomer(Customer customer)
+        {
+            _customerRepository.DeleteCustomer(customer);
+        }
+
+        [HttpPost("api/customerUpdate")]
+        public void UpdateCustomer(Customer customer)
+        {
+            _customerRepository.UpdateCustomer(customer);
+        }
     }
 }
