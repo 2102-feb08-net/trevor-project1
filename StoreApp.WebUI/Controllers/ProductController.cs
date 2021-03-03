@@ -14,9 +14,12 @@ namespace StoreApp.WebUI.Controllers
     {
         private readonly ProductRepository _productRepository;
 
-        public ProductController(ProductRepository productRepository)
+        public Dependencies dependencies;
+
+        public ProductController()
         {
-            _productRepository = productRepository;
+            dependencies = new Dependencies();
+            _productRepository = dependencies.GetProductRepository();
         }
 
         [HttpGet("api/products")]
@@ -25,7 +28,7 @@ namespace StoreApp.WebUI.Controllers
             return _productRepository.GetProducts(name);
         }
 
-        [HttpGet("api/productById")]
+        [HttpGet("api/products/{id}")]
         public Product GetProductByID(int id)
         {
             return _productRepository.GetProductByID(id);

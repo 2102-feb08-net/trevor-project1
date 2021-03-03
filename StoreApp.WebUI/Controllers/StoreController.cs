@@ -14,9 +14,12 @@ namespace StoreApp.WebUI.Controllers
     {
         private readonly StoreRepository _storeRepository;
 
-        public StoreController(StoreRepository storeRepository)
+        public Dependencies dependencies;
+
+        public StoreController()
         {
-            _storeRepository = storeRepository;
+            dependencies = new Dependencies();
+            _storeRepository = dependencies.GetStoreRepository();
         }
 
         [HttpGet("api/stores")]
@@ -25,7 +28,7 @@ namespace StoreApp.WebUI.Controllers
             return _storeRepository.GetStores(state, city);
         }
 
-        [HttpGet("api/storeById")]
+        [HttpGet("api/stores/{id}")]
         public Store GetStoreByID(int id)
         {
             return _storeRepository.GetStoreByID(id);

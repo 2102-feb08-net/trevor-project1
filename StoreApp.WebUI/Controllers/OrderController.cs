@@ -14,9 +14,12 @@ namespace StoreApp.WebUI.Controllers
     {
         private readonly OrderRepository _orderRepository;
 
-        public OrderController(OrderRepository orderRepository)
+        public Dependencies dependencies;
+
+        public OrderController()
         {
-            _orderRepository = orderRepository;
+            dependencies = new Dependencies();
+            _orderRepository = dependencies.GetOrderRepository();
         }
 
         [HttpGet("api/orders")] //Not sure if I'll ever use this method based on my implementation
@@ -37,7 +40,7 @@ namespace StoreApp.WebUI.Controllers
             return _orderRepository.GetOrdersByCustomer(customer);
         }
 
-        [HttpGet("api/orderById")]
+        [HttpGet("api/orders/{id}")]
         public Order GetOrderByID(int id)
         {
             return _orderRepository.GetOrderByID(id);

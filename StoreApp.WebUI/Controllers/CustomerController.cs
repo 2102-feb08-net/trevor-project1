@@ -14,9 +14,12 @@ namespace StoreApp.WebUI.Controllers
     {
         private readonly CustomerRepository _customerRepository;
 
-        public CustomerController(CustomerRepository customerRepository)
+        public Dependencies dependencies;
+
+        public CustomerController()
         {
-            _customerRepository = customerRepository;
+            dependencies = new Dependencies();
+            _customerRepository = dependencies.GetCustomerRepository();
         }
 
         [HttpGet("api/customers")]
@@ -25,7 +28,7 @@ namespace StoreApp.WebUI.Controllers
             return _customerRepository.GetCustomers(firstName, lastName);
         }
 
-        [HttpGet("api/customerById")]
+        [HttpGet("api/customers/{id}")]
         public Customer GetCustomerByID(int id)
         {
             return _customerRepository.GetCustomerByID(id);
