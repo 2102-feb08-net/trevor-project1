@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BLL.Models;
 using DAL.Repositories;
+using StoreApp.WebUI.Models;
 
 namespace StoreApp.WebUI.Controllers
 {
@@ -23,9 +24,22 @@ namespace StoreApp.WebUI.Controllers
         }
 
         [HttpGet("api/stores")]
-        public IEnumerable<Store> GetStores(string state = null, string city = null)
+        public IEnumerable<StoreDTO> GetStores(string state = null, string city = null)
         {
-            return _storeRepository.GetStores(state, city);
+            var stores = _storeRepository.GetStores(state, city);
+            List<StoreDTO> storeDTOs = new List<StoreDTO>();
+            foreach(var store in stores)
+            {
+                storeDTOs.Add(new StoreDTO
+                {
+                    ID = store.ID,
+                    Name = store.Name,
+                    City = store.City,
+                    State = store.State,
+                    GrossProfit = store.GrossProfit
+                });
+            }
+            return storeDTOs;
         }
 
         [HttpGet("api/stores/{id}")]
