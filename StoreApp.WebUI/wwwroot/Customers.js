@@ -12,8 +12,7 @@ function loadCustomers() {
 loadCustomers()
     .then(customers => {
         for (const customer of customers) {
-            // from | subject | received
-            const row = customerTable.insertRow(); // returns a <tr>
+            const row = customerTable.insertRow();
             row.innerHTML = `<td>${customer.id}</td>
                        <td>${customer.firstName}</td>
                        <td>${customer.lastName}</td>
@@ -21,7 +20,7 @@ loadCustomers()
                        <td>${customer.address}</td>`;
             row.addEventListener('click', () => {
                 sessionStorage.setItem('customerId', customer.id);
-                location = 'details.html';
+                location = 'CustomerDetails.html';
             });
         }
 
