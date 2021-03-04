@@ -26,15 +26,15 @@ namespace StoreApp.WebUI.Controllers
         }
 
         [HttpGet("api/ordersByStore")]
-        public IEnumerable<Order> GetOrderByStore(Store store)
+        public IEnumerable<Order> GetOrderByStore(int storeID)
         {
-            return _orderRepository.GetOrdersByStore(store);
+            return _orderRepository.GetOrdersByStore(storeID);
         }
 
         [HttpGet("api/ordersByCustomer")]
-        public IEnumerable<Order> GetOrderByCustomer(Customer customer)
+        public IEnumerable<Order> GetOrderByCustomer(int customerID)
         {
-            return _orderRepository.GetOrdersByCustomer(customer);
+            return _orderRepository.GetOrdersByCustomer(customerID);
         }
 
         [HttpGet("api/orders/{id}")]

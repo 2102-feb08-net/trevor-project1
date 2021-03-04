@@ -1,7 +1,9 @@
 ﻿const inventoryTable = document.getElementById("inventory-table");
 const editDropdown = document.getElementById("product-edit-select");
-const editForm = document.getElementById("edit-item-form");
+const addItemForm = document.getElementById("add-item-form");
+const editItemForm = document.getElementById("edit-item-form");
 const errorMessage = document.getElementById("error-message");
+const successMessage = document.getElementById("success-message");
 const storeID = sessionStorage.getItem("storeId");
 
 function loadInventory(storeId) {
@@ -10,6 +12,19 @@ function loadInventory(storeId) {
             throw new Error(`Network response was not ok (${response.status})`);
         }
         return response.json();
+    });
+}
+
+function addItem(item, storeId) {
+    return fetch(`api/storeInventoryAddItem?product=${item}&storeID=${storeId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(response => {
+        if (!response.ok) {
+            throw new Error(`Network response was not ok (${response.status})`);
+        }
     });
 }
 
@@ -27,9 +42,31 @@ loadInventory(storeID)
             editDropdown.appendChild(option);
         }
         inventoryTable.hidden = false;
-        editForm.hidden = false;
+        editItemForm.hidden = false;
     })
     .catch(error => {
         errorMessage.textContent = error.toString();
         errorMessage.hidden = false;
     });
+
+addItemForm.addEventListener('submit', event => {
+    event.preventDefault();
+
+    successMessage.hidden = true;
+    errorMessage.hidden = true;
+
+    const product = {
+        name: addItemForm.elements['product-name'].value,
+        price: addItemForm.elements['product-price'].value,
+        quantity: addItemForm.elements['product-quantity'].value
+    };
+
+    addItem(product, storeID).then(() => {
+        successMessage.textContent = 'Product added successfully';
+        successMessage.hidden = false;
+    })
+        .catch(error => {
+            errorMessage.textContent = error.toString();
+            errorMessage.hidden = false;
+        });
+});

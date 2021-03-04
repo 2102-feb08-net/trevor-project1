@@ -15,9 +15,12 @@ namespace StoreApp.WebUI.Controllers
     {
         private readonly StoreRepository _storeRepository;
 
-        public StoreController(StoreRepository storeRepository)
+        private readonly ProductRepository _productRepository;
+
+        public StoreController(StoreRepository storeRepository, ProductRepository productRepository)
         {
             _storeRepository = storeRepository;
+            _productRepository = productRepository;
         }
 
         [HttpGet("api/stores")]
@@ -69,6 +72,20 @@ namespace StoreApp.WebUI.Controllers
                 });
             }
             return inventory;
+        }
+
+        [HttpPost("api/storeInventoryAddItem")]
+        public void AddInventoryItem(ProductDTO product, int storeID)
+        {
+            Store store = _storeRepository.GetStoreByID(storeID);
+            Product p = new Product
+            {
+                Name = product.Name,
+                Price = product.Price
+            };
+            p.ID = _productRepository.AddProduct(p);
+            store.AddNewItemToInventory(p, product.Quantity);
+            _storeRepository.UpdateStore(store);
         }
 
         [HttpPost("api/storeAdd")]
