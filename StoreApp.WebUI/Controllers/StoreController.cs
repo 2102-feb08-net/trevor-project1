@@ -43,9 +43,17 @@ namespace StoreApp.WebUI.Controllers
         }
 
         [HttpGet("api/stores/{id}")]
-        public Store GetStoreByID(int id)
+        public StoreDTO GetStoreByID(int id)
         {
-            return _storeRepository.GetStoreByID(id);
+            var store = _storeRepository.GetStoreByID(id);
+            return new StoreDTO
+            {
+                ID = store.ID,
+                Name = store.Name,
+                City = store.City,
+                State = store.State,
+                GrossProfit = store.GrossProfit
+            };
         }
 
         [HttpPost("api/storeAdd")]

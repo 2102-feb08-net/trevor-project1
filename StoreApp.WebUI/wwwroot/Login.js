@@ -1,4 +1,5 @@
 ﻿const storesTable = document.getElementById("stores-table");
+const errorMessage = document.getElementById("error-message");
 
 function loadStores() {
     return fetch('/api/stores').then(response => {
@@ -19,7 +20,7 @@ loadStores()
                        <td>${store.state}</td>`;
             row.addEventListener('click', () => {
                 sessionStorage.setItem('storeId', store.id);
-                location = 'StoreDetails.html';
+                location = 'StoreHome.html';
             });
         }
 
