@@ -6,7 +6,7 @@
 </head>
 <body>
 
-    <table id="inventory-table" hidden>
+    <table id="inventory-table" border="1" hidden>
         <thead>
             <tr>
                 <td>Product ID</td>
@@ -19,6 +19,29 @@
 
         </tbody>
     </table>
+    
+    <div id="options">
+        <form id="add-item-form">
+            <label>
+                Add new item
+                <input type="text" name="product-name" placeholder="Product Name">
+                <input type="number" name="product-price" placeholder="Price">
+                <input type="number" name="product-quantity" placeholder="Quantity">
+            </label>
+            <input type="submit" value="Send">
+        </form>
+
+        <form id="edit-item-form" hidden>
+            <label>
+                Edit quantity for existing item
+                <select id="product-edit-select" name="product-edit-select">
+
+                </select>
+                <input type="number" name="product-new-quantity" placeholder="Quantity">
+            </label>
+            <input type="submit" value="Send">
+        </form>
+    </div>
 
     <div id="error-message" hidden></div>
 
