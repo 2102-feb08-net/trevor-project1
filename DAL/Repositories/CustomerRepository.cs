@@ -11,7 +11,7 @@ namespace DAL.Repositories
 {
     public class CustomerRepository : ICustomerRepository
     {
-        private Project1Context _context;
+        private readonly Project1Context _context;
 
 
         public CustomerRepository(Project1Context context)

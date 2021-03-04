@@ -8,7 +8,7 @@ namespace StoreApp.WebUI.Models
     public class InventoryDTO
     {
         public int StoreID { get; set; }
-        public List<ProductDTO> inventory { get; set; }
+        public List<ProductDTO> Inventory { get; set; }
 
 
         public InventoryDTO()
@@ -18,7 +18,7 @@ namespace StoreApp.WebUI.Models
         public InventoryDTO(int storeID)
         {
             StoreID = storeID;
-            inventory = new List<ProductDTO>();
+            Inventory = new List<ProductDTO>();
         }
     }
 }

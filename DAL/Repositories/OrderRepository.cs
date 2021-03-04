@@ -11,7 +11,7 @@ namespace DAL.Repositories
 {
     public class OrderRepository : IOrderRepository
     {
-        private Project1Context _context;
+        private readonly Project1Context _context;
 
 
         public OrderRepository(Project1Context context)
