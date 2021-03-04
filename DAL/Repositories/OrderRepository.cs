@@ -99,7 +99,7 @@ namespace DAL.Repositories
             }
         }
 
-        public List<Order> GetOrdersByCustomer(Customer customer)
+        public List<Order> GetOrdersByCustomer(int customerID)
         {
             List<Order> orders = new List<Order>();
             var query = _context.Orders
@@ -107,7 +107,7 @@ namespace DAL.Repositories
                     .ThenInclude(p => p.Product)
                 .Include(o => o.Store)
                 .Include(o => o.Customer)
-                .Where(o => o.CustomerId == customer.ID).ToList();
+                .Where(o => o.CustomerId == customerID).ToList();
             if (query != null)
             {
                 foreach (var order in query)
@@ -150,7 +150,7 @@ namespace DAL.Repositories
             }
         }
 
-        public List<Order> GetOrdersByStore(Store store)
+        public List<Order> GetOrdersByStore(int storeID)
         {
             List<Order> orders = new List<Order>();
             var query = _context.Orders
@@ -158,7 +158,7 @@ namespace DAL.Repositories
                     .ThenInclude(p => p.Product)
                 .Include(o => o.Store)
                 .Include(o => o.Customer)
-                .Where(o => o.StoreId == store.ID).ToList();
+                .Where(o => o.StoreId == storeID).ToList();
             if (query != null)
             {
                 foreach (var order in query)
