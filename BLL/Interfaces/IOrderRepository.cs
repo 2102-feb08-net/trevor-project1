@@ -27,14 +27,14 @@ namespace BLL.Interfaces
         /// </summary>
         /// <param name="store">Store to grab orders for</param>
         /// <returns>List of orders associated with store parameter</returns>
-        List<Order> GetOrdersByStore(Store store);
+        List<Order> GetOrdersByStore(int storeID);
 
         /// <summary>
         /// Get a list of all orders in the database by customer
         /// </summary>
         /// <param name="customer">Customer to grab orders for</param>
         /// <returns>List of orders associated with customer parameter</returns>
-        List<Order> GetOrdersByCustomer(Customer customer);
+        List<Order> GetOrdersByCustomer(int customerID);
 
         /// <summary>
         /// Add a new order to the database including order items
