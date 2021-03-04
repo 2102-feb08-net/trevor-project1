@@ -30,7 +30,7 @@ namespace StoreApp.WebUI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string connectionString = File.ReadAllText("C:/revature/project0-connection-string.txt");
+            string connectionString = Configuration.GetConnectionString("Project1DB");
 
             services.AddDbContext<Project1Context>(options =>
             {
