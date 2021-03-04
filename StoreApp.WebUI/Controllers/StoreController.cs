@@ -56,6 +56,24 @@ namespace StoreApp.WebUI.Controllers
             };
         }
 
+        [HttpGet("api/storeInventory/{id}")]
+        public List<ProductDTO> GetStoreInventory(int id)
+        {
+            var store = _storeRepository.GetStoreByID(id);
+            List<ProductDTO> inventory = new List<ProductDTO>();
+            foreach(var item in store.Inventory)
+            {
+                inventory.Add(new ProductDTO
+                {
+                    ID = item.Key.ID,
+                    Name = item.Key.Name,
+                    Price = item.Key.Price,
+                    Quantity = item.Value
+                });
+            }
+            return inventory;
+        }
+
         [HttpPost("api/storeAdd")]
         public void AddStore(Store store)
         {
