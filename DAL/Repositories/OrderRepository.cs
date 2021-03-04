@@ -11,19 +11,16 @@ namespace DAL.Repositories
 {
     public class OrderRepository : IOrderRepository
     {
-        private readonly DbContextOptions<Project1Context> _options;
+        private Project1Context _context;
 
 
-        public OrderRepository(string connectionString)
+        public OrderRepository(Project1Context context)
         {
-            _options = new DbContextOptionsBuilder<Project1Context>()
-                .UseSqlServer(connectionString)
-                .Options;
+            _context = context;
         }
 
         public int AddOrder(Order order)
         {
-            using var _context = new Project1Context(_options);
             OrderDAL newOrder = new OrderDAL
             {
                 StoreId = order.Store.ID,
@@ -38,7 +35,6 @@ namespace DAL.Repositories
 
         public void DeleteOrder(Order order)
         {
-            using var _context = new Project1Context(_options);
             var query = _context.Orders.Find(order.ID);
             if (query != null)
             {
@@ -58,7 +54,6 @@ namespace DAL.Repositories
 
         public Order GetOrderByID(int id)
         {
-            using var _context = new Project1Context(_options);
             var query = _context.Orders
                 .Include(o => o.OrderItems)
                     .ThenInclude(p => p.Product)
@@ -106,7 +101,6 @@ namespace DAL.Repositories
 
         public List<Order> GetOrdersByCustomer(Customer customer)
         {
-            using var _context = new Project1Context(_options);
             List<Order> orders = new List<Order>();
             var query = _context.Orders
                 .Include(o => o.OrderItems)
@@ -158,7 +152,6 @@ namespace DAL.Repositories
 
         public List<Order> GetOrdersByStore(Store store)
         {
-            using var _context = new Project1Context(_options);
             List<Order> orders = new List<Order>();
             var query = _context.Orders
                 .Include(o => o.OrderItems)
@@ -210,7 +203,6 @@ namespace DAL.Repositories
 
         public void UpdateOrder(Order order)
         {
-            using var _context = new Project1Context(_options);
             OrderDAL toUpdate = _context.Orders.Find(order.ID);
             if (toUpdate != null)
             {

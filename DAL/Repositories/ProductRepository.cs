@@ -11,19 +11,16 @@ namespace DAL.Repositories
 {
     public class ProductRepository : IProductRepository
     {
-        private readonly DbContextOptions<Project1Context> _options;
+        private Project1Context _context;
 
 
-        public ProductRepository(string connectionString)
+        public ProductRepository(Project1Context context)
         {
-            _options = new DbContextOptionsBuilder<Project1Context>()
-                .UseSqlServer(connectionString)
-                .Options;
+            _context = context;
         }
 
         public int AddProduct(Product product)
         {
-            using var _context = new Project1Context(_options);
             ProductDAL newProduct = new ProductDAL
             {
                 Name = product.Name,
@@ -36,7 +33,6 @@ namespace DAL.Repositories
 
         public void DeleteProduct(Product product)
         {
-            using var _context = new Project1Context(_options);
             var query = _context.Products.Find(product.ID);
             if (query != null)
             {
@@ -51,7 +47,6 @@ namespace DAL.Repositories
 
         public Product GetProductByID(int id)
         {
-            using var _context = new Project1Context(_options);
             var query = _context.Products.Find(id);
             if (query != null)
             {
@@ -70,7 +65,6 @@ namespace DAL.Repositories
 
         public List<Product> GetProducts(string name = null)
         {
-            using var _context = new Project1Context(_options);
             IQueryable<ProductDAL> query = _context.Products;
             if (name != null)
             {
@@ -93,7 +87,6 @@ namespace DAL.Repositories
 
         public void UpdateProduct(Product product)
         {
-            using var _context = new Project1Context(_options);
             var query = _context.Products.Find(product.ID);
             if (query != null)
             {

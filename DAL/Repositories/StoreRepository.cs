@@ -11,19 +11,16 @@ namespace DAL.Repositories
 {
     public class StoreRepository : IStoreRepository
     {
-        private readonly DbContextOptions<Project1Context> _options;
+        private Project1Context _context;
 
 
-        public StoreRepository(string connectionString)
+        public StoreRepository(Project1Context context)
         {
-            _options = new DbContextOptionsBuilder<Project1Context>()
-                .UseSqlServer(connectionString)
-                .Options;
+            _context = context;
         }
 
         public int AddStore(Store store)
         {
-            using var _context = new Project1Context(_options);
             var newStore = new StoreDAL
             {
                 Name = store.Name,
@@ -38,7 +35,6 @@ namespace DAL.Repositories
 
         public void DeleteStore(Store store)
         {
-            using var _context = new Project1Context(_options);
             var query = _context.Stores.Find(store.ID);
             if (query != null)
             {
@@ -53,7 +49,6 @@ namespace DAL.Repositories
 
         public Store GetStoreByID(int id)
         {
-            using var _context = new Project1Context(_options);
             StoreDAL query = _context.Stores
                 .Include(s => s.StoreItems)
                     .ThenInclude(p => p.Product)
@@ -83,7 +78,6 @@ namespace DAL.Repositories
 
         public List<Store> GetStores(string state = null, string city = null)
         {
-            using var _context = new Project1Context(_options);
             List<Store> stores = new List<Store>();
             IQueryable<StoreDAL> query = _context.Stores
                 .Include(s => s.StoreItems)
@@ -120,7 +114,6 @@ namespace DAL.Repositories
 
         public void UpdateStore(Store store)
         {
-            using var _context = new Project1Context(_options);
             var query = _context.Stores
                 .Include(s => s.StoreItems)
                     .ThenInclude(p => p.Product).First(s => s.Id == store.ID);

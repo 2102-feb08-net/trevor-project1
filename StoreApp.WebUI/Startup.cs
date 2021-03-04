@@ -1,3 +1,5 @@
+using DAL;
+using DAL.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -8,9 +10,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace StoreApp.WebUI
 {
@@ -26,6 +30,17 @@ namespace StoreApp.WebUI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string connectionString = File.ReadAllText("C:/revature/project0-connection-string");
+
+            services.AddDbContext<Project1Context>(options =>
+            {
+                options.UseSqlServer(connectionString);
+            });
+
+            services.AddScoped<OrderRepository>();
+            services.AddScoped<CustomerRepository>();
+            services.AddScoped<StoreRepository>();
+            services.AddScoped<ProductRepository>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

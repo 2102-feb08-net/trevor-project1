@@ -11,19 +11,16 @@ namespace DAL.Repositories
 {
     public class CustomerRepository : ICustomerRepository
     {
-        private readonly DbContextOptions<Project1Context> _options;
+        private Project1Context _context;
 
 
-        public CustomerRepository(string connectionString)
+        public CustomerRepository(Project1Context context)
         {
-            _options = new DbContextOptionsBuilder<Project1Context>()
-                .UseSqlServer(connectionString)
-                .Options;
+            _context = context;
         }
 
         public int AddCustomer(Customer customer)
         {
-            using var _context = new Project1Context(_options);
             CustomerDAL newCustomer = new CustomerDAL
             {
                 FirstName = customer.FirstName,
@@ -38,7 +35,6 @@ namespace DAL.Repositories
 
         public void DeleteCustomer(Customer customer)
         {
-            using var _context = new Project1Context(_options);
             var query = _context.Customers.Find(customer.ID);
             if (query != null)
             {
@@ -53,7 +49,6 @@ namespace DAL.Repositories
 
         public Customer GetCustomerByID(int id)
         {
-            using var _context = new Project1Context(_options);
             var query = _context.Customers.Find(id);
             if (query != null)
             {
@@ -74,7 +69,6 @@ namespace DAL.Repositories
 
         public List<Customer> GetCustomers(string firstName = null, string lastName = null)
         {
-            using var _context = new Project1Context(_options);
             IQueryable<CustomerDAL> query = _context.Customers;
             if (firstName != null && lastName != null)
             {
@@ -100,7 +94,6 @@ namespace DAL.Repositories
 
         public void UpdateCustomer(Customer customer)
         {
-            using var _context = new Project1Context(_options);
             var query = _context.Customers.Find(customer.ID);
             if (query != null)
             {
