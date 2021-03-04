@@ -14,12 +14,9 @@ namespace StoreApp.WebUI.Controllers
     {
         private readonly CustomerRepository _customerRepository;
 
-        public Dependencies dependencies;
-
-        public CustomerController()
+        public CustomerController(CustomerRepository customerRepository)
         {
-            dependencies = new Dependencies();
-            _customerRepository = dependencies.GetCustomerRepository();
+            _customerRepository = customerRepository;
         }
 
         [HttpGet("api/customers")]

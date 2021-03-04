@@ -15,12 +15,9 @@ namespace StoreApp.WebUI.Controllers
     {
         private readonly StoreRepository _storeRepository;
 
-        public Dependencies dependencies;
-
-        public StoreController()
+        public StoreController(StoreRepository storeRepository)
         {
-            dependencies = new Dependencies();
-            _storeRepository = dependencies.GetStoreRepository();
+            _storeRepository = storeRepository;
         }
 
         [HttpGet("api/stores")]
