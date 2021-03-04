@@ -13,11 +13,32 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '5.0.x'
+
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: dotnet build
 
 - task: DotNetCoreCLI@2
   inputs:
     command: 'test'
-    projects: '/Tests'
+    arguments: '--configuration $(buildConfiguration)'
     testRunTitle: 'BLL Models Tests'
+    publishTestResults: true
+
+- task: DotNetCoreCLI@2
+  displayName: dotnet publish
+  inputs:
+    command: 'publish'
+    publishWebProjects: true
+    zipAfterPublish: true
+
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Azure subscription 1(817ecea1-59d2-46d0-a921-fec66d0428ab)'
+    appType: 'webApp'
+    WebAppName: 'trevordunbar-project1'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
