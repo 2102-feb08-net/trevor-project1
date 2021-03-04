@@ -82,11 +82,11 @@ namespace BLL.Models
         }
 
         /// <summary>
-        /// Adds quantity for a product that already exists in store inventory
+        /// Edit's quantity for a product that already exists in store inventory
         /// </summary>
-        /// <param name="product">Product to add quantity to</param>
-        /// <param name="quantity">Amount to add</param>
-        public void AddQuantityToItem(Product product, int quantity)
+        /// <param name="product">Product to change quantity for</param>
+        /// <param name="quantity">New quantity</param>
+        public void EditQuantityToItem(Product product, int quantity)
         {
             if (!Inventory.ContainsKey(product))
             {
@@ -98,32 +98,7 @@ namespace BLL.Models
             }
             else
             {
-                Inventory[product] += quantity;
-            }
-        }
-
-        /// <summary>
-        /// Removes quantity for a product in store inventory
-        /// </summary>
-        /// <param name="product">Product to remove quantity from</param>
-        /// <param name="quantity">Amount to remove</param>
-        public void RemoveQuantityFromItem(Product product, int quantity)
-        {
-            if (!Inventory.ContainsKey(product))
-            {
-                throw new ArgumentException("Can't remove quantity because item doesn't exist in inventory");
-            }
-            else if (quantity <= 0)
-            {
-                throw new ArgumentException("Can't remove 0 or less than 0 quantity from item in inventory");
-            }
-            else if(quantity >= Inventory[product])
-            {
-                throw new ArgumentException("Can't remove more than what already exists for item in inventory. Use Delete if you want to remove the whole product");
-            }
-            else
-            {
-                Inventory[product] -= quantity;
+                Inventory[product] = quantity;
             }
         }
 
