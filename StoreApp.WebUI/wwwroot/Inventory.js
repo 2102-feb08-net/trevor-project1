@@ -16,7 +16,7 @@ function loadInventory(storeId) {
 }
 
 function addItem(item, storeId) {
-    return fetch(`api/storeInventoryAddItem?product=${item}&storeID=${storeId}`, {
+    return fetch(`api/storeInventoryAddItem/${storeId}?productName=${item.name}&productPrice=${item.price}&quantity=${item.quantity}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

@@ -13,8 +13,8 @@ namespace DAL
         }
 
         public int Id { get; set; }
-        public int StoreId { get; set; }
-        public int CustomerId { get; set; }
+        public int? StoreId { get; set; }
+        public int? CustomerId { get; set; }
         public decimal TotalPrice { get; set; }
         public DateTime OrderTime { get; set; }
 

@@ -19,6 +19,18 @@ namespace DAL.Repositories
             _context = context;
         }
 
+        public void AddItemToInventory(int storeID, Product product, int quantity)
+        {
+            var storeItem = new StoreItemDAL
+            {
+                StoreId = storeID,
+                ProductId = product.ID,
+                Quantity = quantity
+            };
+            _context.Add(storeItem);
+            _context.SaveChanges();
+        }
+
         public int AddStore(Store store)
         {
             var newStore = new StoreDAL
@@ -44,6 +56,21 @@ namespace DAL.Repositories
             else
             {
                 throw new Exception("Couldn't find product to delete");
+            }
+        }
+
+        public void EditItemQuantity(int storeID, Product product, int newQuantity)
+        {
+            var itemEdit = _context.StoreItems.Where(s => s.StoreId == storeID && s.ProductId == product.ID).First();
+            if(itemEdit != null)
+            {
+                itemEdit.Quantity = newQuantity;
+                _context.Update(itemEdit);
+                _context.SaveChanges();
+            }
+            else
+            {
+                throw new ArgumentException("Couldn't find item in inventory for update");
             }
         }
 

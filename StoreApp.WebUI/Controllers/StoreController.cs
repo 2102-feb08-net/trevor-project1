@@ -74,17 +74,17 @@ namespace StoreApp.WebUI.Controllers
             return inventory;
         }
 
-        [HttpPost("api/storeInventoryAddItem")]
-        public void AddInventoryItem(ProductDTO product, int storeID)
+        [HttpPost("api/storeInventoryAddItem/{id}")]
+        public void AddInventoryItem(int id, string productName, decimal productPrice, int quantity)
         {
-            Store store = _storeRepository.GetStoreByID(storeID);
+            Store store = _storeRepository.GetStoreByID(id);
             Product p = new Product
             {
-                Name = product.Name,
-                Price = product.Price
+                Name = productName,
+                Price = productPrice
             };
             p.ID = _productRepository.AddProduct(p);
-            store.AddNewItemToInventory(p, product.Quantity);
+            store.AddNewItemToInventory(p, quantity);
             _storeRepository.UpdateStore(store);
         }
 
