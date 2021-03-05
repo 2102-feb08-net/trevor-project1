@@ -35,6 +35,13 @@ steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: dotnet build
 
+- task: DotNetCoreCLI@2
+  displayName: dotnet test
+  inputs:
+    command: 'test'
+    arguments: '--configuration $(buildConfiguration) --collect "xplat code coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura,opencover'
+
+
 - task: SonarCloudAnalyze@1
   displayName: sonar run analysis
 
@@ -42,13 +49,6 @@ steps:
   displayName: publish sonar quality gate
   inputs:
     pollingTimeoutSec: '300'
-
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'test'
-    arguments: '--configuration $(buildConfiguration)'
-    testRunTitle: 'BLL Models Tests'
-    publishTestResults: true
 
 - task: DotNetCoreCLI@2
   displayName: dotnet publish
