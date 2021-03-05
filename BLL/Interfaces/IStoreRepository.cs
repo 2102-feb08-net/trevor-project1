@@ -32,22 +32,6 @@ namespace BLL.Interfaces
         int AddStore(Store store);
 
         /// <summary>
-        /// Adds a new item to the store inventory
-        /// </summary>
-        /// <param name="storeID">Id of store</param>
-        /// <param name="product">Product to add</param>
-        /// <param name="quantity">Amount to add</param>
-        void AddItemToInventory(int storeID, Product product, int quantity);
-
-        /// <summary>
-        /// Changes the quantity of an inventory item to new quantity
-        /// </summary>
-        /// <param name="storeID">store ID</param>
-        /// <param name="product">Product to change quantity for</param>
-        /// <param name="newQuantity">new quantity</param>
-        void EditItemQuantity(int storeID, Product product, int newQuantity);
-
-        /// <summary>
         /// Update a store in the database
         /// </summary>
         /// <param name="store">Store to update</param>
