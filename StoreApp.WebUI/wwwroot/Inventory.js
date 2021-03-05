@@ -41,26 +41,30 @@ function editQuantity(item, storeId) {
     });
 }
 
-loadInventory(storeID)
-    .then(inventory => {
-        for (const item of inventory) {
-            const row = inventoryTable.insertRow();
-            const option = document.createElement("option");
-            row.innerHTML = `<td>${item.id}</td>
+function populateTable(storeId) {
+    loadInventory(storeId)
+        .then(inventory => {
+            for (const item of inventory) {
+                const row = inventoryTable.insertRow();
+                const option = document.createElement("option");
+                row.innerHTML = `<td>${item.id}</td>
                        <td>${item.name}</td>
                        <td>\$${item.price}</td>
                        <td>${item.quantity}</td>`;
-            option.value = item.id;
-            option.text = item.name;
-            editDropdown.appendChild(option);
-        }
-        inventoryTable.hidden = false;
-        editItemForm.hidden = false;
-    })
-    .catch(error => {
-        errorMessage.textContent = error.toString();
-        errorMessage.hidden = false;
-    });
+                option.value = item.id;
+                option.text = item.name;
+                editDropdown.appendChild(option);
+            }
+            inventoryTable.hidden = false;
+            editItemForm.hidden = false;
+        })
+        .catch(error => {
+            errorMessage.textContent = error.toString();
+            errorMessage.hidden = false;
+        });
+}
+
+populateTable(storeID);
 
 addItemForm.addEventListener('submit', event => {
     event.preventDefault();

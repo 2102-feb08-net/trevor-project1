@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BLL.Models;
 using DAL.Repositories;
+using StoreApp.WebUI.Models;
 
 namespace StoreApp.WebUI.Controllers
 {
@@ -25,10 +26,23 @@ namespace StoreApp.WebUI.Controllers
             return _orderRepository.GetAllOrders();
         }
 
-        [HttpGet("api/ordersByStore")]
-        public IEnumerable<Order> GetOrderByStore(int storeID)
+        [HttpGet("api/ordersByStore/{storeID}")]
+        public IEnumerable<OrderDTO> GetOrderByStore(int storeID)
         {
-            return _orderRepository.GetOrdersByStore(storeID);
+            var orders = _orderRepository.GetOrdersByStore(storeID);
+            List<OrderDTO> toReturn = new List<OrderDTO>();
+            foreach(var order in orders)
+            {
+                toReturn.Add(new OrderDTO
+                {
+                    ID = order.ID,
+                    TotalPrice = order.TotalPrice,
+                    CustomerName = order.Customer.FirstName + " " + order.Customer.LastName,
+                    StoreID = order.Store.ID,
+                    OrderTime = order.OrderTime
+                });
+            }
+            return toReturn;
         }
 
         [HttpGet("api/ordersByCustomer")]
