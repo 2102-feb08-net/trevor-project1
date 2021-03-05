@@ -52,9 +52,22 @@ namespace StoreApp.WebUI.Controllers
         }
 
         [HttpGet("api/orders/{id}")]
-        public Order GetOrderByID(int id)
+        public List<ProductDTO> GetOrderByID(int id)
         {
-            return _orderRepository.GetOrderByID(id);
+            var order = _orderRepository.GetOrderByID(id);
+            List<ProductDTO> items = new List<ProductDTO>();
+
+            foreach(var item in order.Cart)
+            {
+                items.Add(new ProductDTO
+                {
+                    ID = item.Key.ID,
+                    Name = item.Key.Name,
+                    Price = item.Key.Price,
+                    Quantity = item.Value
+                });
+            }
+            return items;
         }
 
         [HttpPost("api/orderAdd")]
