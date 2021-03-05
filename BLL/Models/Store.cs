@@ -67,18 +67,20 @@ namespace BLL.Models
         /// <param name="quantity">Amount to add</param>
         public void AddNewItemToInventory(Product product, int quantity)
         {
-            var toAdd = GetKeyFromExternalProduct(product);
-            if (Inventory.ContainsKey(toAdd))
+            foreach(var item in Inventory)
             {
-                throw new ArgumentException("Item already exists in the inventory");
+                if (item.Key.ID == product.ID)
+                {
+                    throw new ArgumentException("Item already exists in the inventory");
+                }
             }
-            else if(quantity <= 0)
+            if(quantity <= 0)
             {
                 throw new ArgumentException("Can't add new item with 0 or less than 0 quantity to inventory");
             }
             else
             {
-                Inventory[toAdd] = quantity;
+                Inventory[product] = quantity;
             }
         }
 
