@@ -67,7 +67,8 @@ namespace BLL.Models
         /// <param name="quantity">Amount to add</param>
         public void AddNewItemToInventory(Product product, int quantity)
         {
-            if (Inventory.ContainsKey(product))
+            var toAdd = GetKeyFromExternalProduct(product);
+            if (Inventory.ContainsKey(toAdd))
             {
                 throw new ArgumentException("Item already exists in the inventory");
             }
@@ -77,7 +78,7 @@ namespace BLL.Models
             }
             else
             {
-                Inventory[product] = quantity;
+                Inventory[toAdd] = quantity;
             }
         }
 
@@ -88,17 +89,18 @@ namespace BLL.Models
         /// <param name="quantity">New quantity</param>
         public void EditQuantityToItem(Product product, int quantity)
         {
-            if (!Inventory.ContainsKey(product))
+            var toEdit = GetKeyFromExternalProduct(product);
+            if (!Inventory.ContainsKey(toEdit))
             {
-                throw new ArgumentException("Can't add quantity because item doesn't exist in inventory");
+                throw new ArgumentException("Can't change quantity because item doesn't exist in inventory");
             }
             else if(quantity <= 0)
             {
-                throw new ArgumentException("Can't add 0 or less than 0 quantity to item in inventory");
+                throw new ArgumentException("Can't have 0 or less than 0 quantity to item in inventory");
             }
             else
             {
-                Inventory[product] = quantity;
+                Inventory[toEdit] = quantity;
             }
         }
 
@@ -108,15 +110,27 @@ namespace BLL.Models
         /// <param name="product">Product to delete</param>
         public void DeleteProductFromInventory(Product product)
         {
-            if (!Inventory.ContainsKey(product))
+            var toDelete = GetKeyFromExternalProduct(product);
+            if (!Inventory.ContainsKey(toDelete))
             {
                 throw new ArgumentException("Can't delete product from inventory because it doesn't exist");
             }
             else
             {
-                Inventory.Remove(product);
+                Inventory.Remove(toDelete);
             }
         }
 
+        private Product GetKeyFromExternalProduct(Product product)
+        {
+            foreach(var item in Inventory)
+            {
+                if(item.Key.ID == product.ID)
+                {
+                    return item.Key;
+                }
+            }
+            throw new ArgumentException("Couldn't find that product in the inventory");
+        }
     }
 }

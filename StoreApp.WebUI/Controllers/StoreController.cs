@@ -88,6 +88,15 @@ namespace StoreApp.WebUI.Controllers
             _storeRepository.UpdateStore(store);
         }
 
+        [HttpPost("api/storeInventoryEditItem/{id}")]
+        public void EditInventoryItemQuantity(int id, int productID, int newQuantity)
+        {
+            Store store = _storeRepository.GetStoreByID(id);
+            Product p = _productRepository.GetProductByID(productID);
+            store.EditQuantityToItem(p, newQuantity);
+            _storeRepository.UpdateStore(store);
+        }
+
         [HttpPost("api/storeAdd")]
         public void AddStore(Store store)
         {

@@ -28,6 +28,19 @@ function addItem(item, storeId) {
     });
 }
 
+function editQuantity(item, storeId) {
+    return fetch(`api/storeInventoryEditItem/${storeId}?productID=${item.id}&newQuantity=${item.quantity}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(response => {
+        if (!response.ok) {
+            throw new Error(`Network response was not ok (${response.status})`);
+        }
+    });
+}
+
 loadInventory(storeID)
     .then(inventory => {
         for (const item of inventory) {
@@ -63,6 +76,27 @@ addItemForm.addEventListener('submit', event => {
 
     addItem(product, storeID).then(() => {
         successMessage.textContent = 'Product added successfully';
+        successMessage.hidden = false;
+    })
+        .catch(error => {
+            errorMessage.textContent = error.toString();
+            errorMessage.hidden = false;
+        });
+});
+
+editItemForm.addEventListener('submit', event => {
+    event.preventDefault();
+
+    successMessage.hidden = true;
+    errorMessage.hidden = true;
+
+    const product = {
+        id: editItemForm.elements['product-edit-select'].value,
+        quantity: editItemForm.elements['product-new-quantity'].value
+    };
+
+    editQuantity(product, storeID).then(() => {
+        successMessage.textContent = 'Product quantity updated successfully';
         successMessage.hidden = false;
     })
         .catch(error => {
