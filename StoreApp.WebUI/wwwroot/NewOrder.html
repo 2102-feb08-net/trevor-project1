@@ -12,8 +12,19 @@
             <select id="customer-select-dropdown">
             </select>
         </label>
+        <br />
+        <label>
+            Product:
+            <select id="product-select-dropdown">
+            </select>
+        </label>
+        <label>
+            Quantity:
+            <input type="number" min="1" name="product-quantity" placeholder="Quantity"/>
+        </label>
+        <br />
         <button id="new-product-button">Add a new item</button>
-        <input type="submit" value="Send">
+        <input id="submit-button" type="submit" value="Submit Order">
     </form>
 
     <div id="success-message" hidden></div>
