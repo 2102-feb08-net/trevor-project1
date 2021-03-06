@@ -40,5 +40,11 @@ namespace BLL.Models
             Name = name;
             Price = price;
         }
+
+        public Product(int? productId, string name, decimal price)
+        {
+            Name = name;
+            Price = price;
+        }
     }
 }

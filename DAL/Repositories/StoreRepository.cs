@@ -98,7 +98,7 @@ namespace DAL.Repositories
             {
                 var inventory = store.StoreItems.Select(
                     x => new KeyValuePair<Product, int>(
-                    new Product(x.Id, x.Product.Name, x.Product.Price), x.Quantity)).ToList();
+                    new Product(x.Product.Id, x.Product.Name, x.Product.Price), x.Quantity)).ToList();
                 stores.Add(new Store
                 {
                     ID = store.Id,
