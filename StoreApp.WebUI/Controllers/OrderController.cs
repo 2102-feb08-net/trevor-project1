@@ -51,10 +51,23 @@ namespace StoreApp.WebUI.Controllers
             return toReturn;
         }
 
-        [HttpGet("api/ordersByCustomer")]
-        public IEnumerable<Order> GetOrdersByCustomer(int customerID)
+        [HttpGet("api/ordersByCustomer/{customerID}")]
+        public IEnumerable<OrderDTO> GetOrdersByCustomer(int customerID)
         {
-            return _orderRepository.GetOrdersByCustomer(customerID);
+            var orders = _orderRepository.GetOrdersByCustomer(customerID);
+            List<OrderDTO> toReturn = new List<OrderDTO>();
+            foreach(var order in orders)
+            {
+                toReturn.Add(new OrderDTO
+                {
+                    ID = order.ID,
+                    TotalPrice = order.TotalPrice,
+                    StoreName = order.Store.Name,
+                    StoreLocation = order.Store.City + ", " + order.Store.State,
+                    OrderTime = order.OrderTime
+                });
+            }
+            return toReturn;
         }
 
         [HttpGet("api/orders/{id}")]

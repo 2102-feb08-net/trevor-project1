@@ -2,9 +2,27 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Customer Details</title>
+    <title>Customer Orders</title>
 </head>
 <body>
+    <h1>Customer Orders</h1>
+    <table id="customer-orders-table" border="1" hidden>
+        <thead>
+            <tr>
+                <td>Order ID</td>
+                <td>Store Name</td>
+                <td>Store Location</td>
+                <td>Total Price</td>
+                <td>Date</td>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
 
+    <div id="success-message" hidden></div>
+    <div id="error-message" hidden></div>
+
+    <script src="CustomerDetails.js"></script>
 </body>
 </html>
