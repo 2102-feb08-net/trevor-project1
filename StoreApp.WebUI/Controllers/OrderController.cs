@@ -14,10 +14,16 @@ namespace StoreApp.WebUI.Controllers
     public class OrderController : ControllerBase
     {
         private readonly OrderRepository _orderRepository;
+        private readonly CustomerRepository _customerRepository;
+        private readonly StoreRepository _storeRepository;
+        private readonly ProductRepository _productRepository;
 
-        public OrderController(OrderRepository orderRepository)
+        public OrderController(OrderRepository orderRepository, StoreRepository storeRepository, CustomerRepository customerRepository, ProductRepository productRepository)
         {
             _orderRepository = orderRepository;
+            _storeRepository = storeRepository;
+            _customerRepository = customerRepository;
+            _productRepository = productRepository;
         }
 
         [HttpGet("api/orders")] //Not sure if I'll ever use this method based on my implementation
@@ -71,9 +77,18 @@ namespace StoreApp.WebUI.Controllers
         }
 
         [HttpPost("api/orderAdd")]
-        public void AddOrder(Order order)
+        public void AddOrder(int storeID, int customerID, List<ProductDTO> products)
         {
+            Store store = _storeRepository.GetStoreByID(storeID);
+            Customer customer = _customerRepository.GetCustomerByID(customerID);
+            Order order = new Order(customer, store);
+            foreach(var item in products)
+            {
+                Product p = _productRepository.GetProductByID((int)item.ID);
+                order.AddNewItemToCart(p, (int)item.Quantity);
+            }
             _orderRepository.AddOrder(order);
+            _storeRepository.UpdateStore(order.Store);
         }
 
         [HttpPost("api/orderDelete")]

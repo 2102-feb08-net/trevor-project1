@@ -51,26 +51,31 @@ namespace BLL.Models
         /// <param name="quantity">Amount to add</param>
         public void AddNewItemToCart(Product product, int quantity)
         {
-            if (Cart.ContainsKey(product))
+            var storeKey = GetStoreInventoryKeyFromProduct(product);
+            foreach(var item in Cart)
             {
-                throw new ArgumentException("Item already exists in the inventory");
+                if (item.Key.ID == product.ID)
+                {
+                    throw new ArgumentException("Item already exists in the inventory");
+                }
             }
-            else if (quantity <= 0)
+            
+            if (quantity <= 0)
             {
                 throw new ArgumentException("Can't add new item with 0 or less than 0 quantity to inventory");
             }
-            else if (!Store.Inventory.ContainsKey(product))
+            else if (!Store.Inventory.ContainsKey(storeKey))
             {
                 throw new ArgumentException("Can't add item to cart because it doesn't exist in store inventory");
             }
-            else if(quantity > Store.Inventory[product])
+            else if(quantity > Store.Inventory[storeKey])
             {
                 throw new ArgumentException("Can't add item to cart, not enough inventory available");
             }
             else
             {
                 Cart[product] = quantity;
-                Store.Inventory[product] -= quantity;
+                Store.Inventory[storeKey] -= quantity;
             }
         }
 
@@ -160,6 +165,30 @@ namespace BLL.Models
             }
             Store.GrossProfit += TotalPrice;
             OrderTime = DateTime.Now;
+        }
+
+        private Product GetCartKeyFromProduct(Product p)
+        {
+            foreach(var item in Cart)
+            {
+                if(item.Key.ID == p.ID)
+                {
+                    return item.Key;
+                }
+            }
+            throw new ArgumentException("Couldn't find product in Cart");
+        }
+
+        private Product GetStoreInventoryKeyFromProduct(Product p)
+        {
+            foreach (var item in Store.Inventory)
+            {
+                if (item.Key.ID == p.ID)
+                {
+                    return item.Key;
+                }
+            }
+            throw new ArgumentException("Couldn't find product in Store Inventory");
         }
     }
 }

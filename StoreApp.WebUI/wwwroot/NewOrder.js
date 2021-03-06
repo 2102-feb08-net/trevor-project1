@@ -2,11 +2,19 @@
 const newProductButton = document.getElementById("new-product-button");
 const customerSelector = document.getElementById("customer-select-dropdown");
 const itemsContainer = document.getElementById("items-container");
+const submitOrderButton = document.getElementById("submit-button");
 const storeID = sessionStorage.getItem("storeId");
 const errorMessage = document.getElementById("error-message");
 const successMessage = document.getElementById("success-message");
 
 let productLines = 1;
+
+class Product {
+	constructor(id, quantity) {
+		this.id = id;
+		this.quantity = quantity;
+	}
+}
 
 function loadCustomers() {
 	return fetch('/api/customers').then(response => {
@@ -57,27 +65,65 @@ function populateProductDropdown(productLine, storeId) {
 		});
 }
 
-populateCustomersDropdown();
-populateProductDropdown(productLines, storeID);
+function submitOrder(order) {
+	return fetch(`api/orderAdd`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(order)
+	}).then(response => {
+		if (!response.ok) {
+			throw new Error(`Network response was not ok (${response.status})`);
+		}
+	});
+}
 
-newProductButton.addEventListener("click", event => {
-	event.preventDefault();
-	productLines = productLines + 1;
-	const productLabel = document.createElement("label");
-	const quantityLabel = document.createElement("label");
-	const productSelector = document.createElement("select");
-	const newLine = document.createElement("br");
-
-	productSelector.id = `product-select-dropdown-${productLines}`;
-	productSelector.name = `product-${productLines}`;
-
-	productLabel.innerHTML = `Product: `;
-	quantityLabel.innerHTML = ` Quantity: <input type="number" min="1" name="product-quantity-${productLines}" placeholder="Quantity" />`;
-
-	productLabel.appendChild(productSelector);
-
-	itemsContainer.appendChild(productLabel);
-	itemsContainer.appendChild(quantityLabel);
-	itemsContainer.appendChild(newLine);
+	populateCustomersDropdown();
 	populateProductDropdown(productLines, storeID);
+
+	newProductButton.addEventListener("click", event => {
+		event.preventDefault();
+		productLines = productLines + 1;
+		const productLabel = document.createElement("label");
+		const quantityLabel = document.createElement("label");
+		const productSelector = document.createElement("select");
+		const newLine = document.createElement("br");
+
+		productSelector.id = `product-select-dropdown-${productLines}`;
+		productSelector.name = `product-${productLines}`;
+
+		productLabel.innerHTML = `Product: `;
+		quantityLabel.innerHTML = ` Quantity: <input type="number" min="1" name="product-quantity-${productLines}" placeholder="Quantity" />`;
+
+		productLabel.appendChild(productSelector);
+
+		itemsContainer.appendChild(productLabel);
+		itemsContainer.appendChild(quantityLabel);
+		itemsContainer.appendChild(newLine);
+		populateProductDropdown(productLines, storeID);
+	});
+
+	submitOrderButton.addEventListener("submit", event => {
+		event.preventDefault();
+
+		successMessage.hidden = true;
+		errorMessage.hidden = true;
+
+		let products = [];
+		for (i = 1; i <= productLines; i++) {
+			const productChoice = document.getElementByName(`product-${i}`);
+			const productQuantity = document.getElementByName(`product-quantity-${i}`);
+			products.push(new Product(productChoice.value, productQuantity.value));
+		}
+
+		const customerID = customerSelector.value;
+
+		const order = {
+			storeId: storeID,
+			customerId: customerID,
+			items: products
+		}
+
+		submitOrder(order);
 });
