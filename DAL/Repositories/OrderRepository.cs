@@ -64,7 +64,7 @@ namespace DAL.Repositories
             {
                 var inventory = query.OrderItems.Select(
                     x => new KeyValuePair<Product, int>(
-                    new Product(x.ProductId, x.Product.Name, x.Product.Price), x.Quantity)).ToList();
+                    new Product(x.Product.Id, x.Product.Name, x.Product.Price), x.Quantity)).ToList();
 
                 return new Order
                 {
@@ -78,7 +78,7 @@ namespace DAL.Repositories
                         GrossProfit = query.Store.Profit,
                         Inventory = query.Store.StoreItems.Select(
                                 x => new KeyValuePair<Product, int>(
-                                new Product(x.ProductId, x.Product.Name, x.Product.Price), x.Quantity)).ToList().ToDictionary(x => x.Key, y => y.Value)
+                                new Product(x.Product.Id, x.Product.Name, x.Product.Price), x.Quantity)).ToList().ToDictionary(x => x.Key, y => y.Value)
                     },
                     Customer = new Customer
                     {
@@ -114,7 +114,7 @@ namespace DAL.Repositories
                 {
                     var items = order.OrderItems.Select(
                     x => new KeyValuePair<Product, int>(
-                    new Product(x.ProductId, x.Product.Name, x.Product.Price), x.Quantity)).ToList();
+                    new Product(x.Product.Id, x.Product.Name, x.Product.Price), x.Quantity)).ToList();
                     orders.Add(new Order
                     {
                         ID = order.Id,
@@ -127,7 +127,7 @@ namespace DAL.Repositories
                             GrossProfit = order.Store.Profit,
                             Inventory = order.Store.StoreItems.Select(
                                 x => new KeyValuePair<Product, int>(
-                                new Product(x.ProductId, x.Product.Name, x.Product.Price), x.Quantity)).ToList().ToDictionary(x => x.Key, y => y.Value)
+                                new Product(x.Product.Id, x.Product.Name, x.Product.Price), x.Quantity)).ToList().ToDictionary(x => x.Key, y => y.Value)
                         },
                         Customer = new Customer
                         {
@@ -165,7 +165,7 @@ namespace DAL.Repositories
                 {
                     var items = order.OrderItems.Select(
                     x => new KeyValuePair<Product, int>(
-                    new Product(x.ProductId, x.Product.Name, x.Product.Price), x.Quantity)).ToList();
+                    new Product(x.Product.Id, x.Product.Name, x.Product.Price), x.Quantity)).ToList();
                     orders.Add(new Order
                     {
                         ID = order.Id,
@@ -178,7 +178,7 @@ namespace DAL.Repositories
                             GrossProfit = order.Store.Profit,
                             Inventory = order.Store.StoreItems.Select(
                                 x => new KeyValuePair<Product, int>(
-                                new Product(x.ProductId, x.Product.Name, x.Product.Price), x.Quantity)).ToList().ToDictionary(x => x.Key, y => y.Value)
+                                new Product(x.Product.Id, x.Product.Name, x.Product.Price), x.Quantity)).ToList().ToDictionary(x => x.Key, y => y.Value)
                         },
                         Customer = new Customer
                         {
