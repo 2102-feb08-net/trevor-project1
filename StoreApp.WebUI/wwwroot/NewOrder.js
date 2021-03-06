@@ -104,7 +104,7 @@ function submitOrder(order) {
 		populateProductDropdown(productLines, storeID);
 	});
 
-	submitOrderButton.addEventListener("submit", event => {
+	newOrderForm.addEventListener("submit", event => {
 		event.preventDefault();
 
 		successMessage.hidden = true;
@@ -112,12 +112,12 @@ function submitOrder(order) {
 
 		let products = [];
 		for (i = 1; i <= productLines; i++) {
-			const productChoice = document.getElementByName(`product-${i}`);
-			const productQuantity = document.getElementByName(`product-quantity-${i}`);
-			products.push(new Product(productChoice.value, productQuantity.value));
+			const productChoice = newOrderForm.elements[`product-${i}`].value;
+			const productQuantity = newOrderForm.elements[`product-quantity-${i}`].value
+			products.push(new Product(productChoice, productQuantity));
 		}
 
-		const customerID = customerSelector.value;
+		const customerID = newOrderForm.elements[`customer`].value;
 
 		const order = {
 			storeId: storeID,
@@ -125,5 +125,12 @@ function submitOrder(order) {
 			items: products
 		}
 
-		submitOrder(order);
+		submitOrder(order).then(() => {
+			successMessage.textContent = 'Order placed successfully';
+			successMessage.hidden = false;
+		})
+			.catch(error => {
+				errorMessage.textContent = error.toString();
+				errorMessage.hidden = false;
+			});
 });

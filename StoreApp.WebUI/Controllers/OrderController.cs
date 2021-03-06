@@ -33,7 +33,7 @@ namespace StoreApp.WebUI.Controllers
         }
 
         [HttpGet("api/ordersByStore/{storeID}")]
-        public IEnumerable<OrderDTO> GetOrderByStore(int storeID)
+        public IEnumerable<OrderDTO> GetOrdersByStore(int storeID)
         {
             var orders = _orderRepository.GetOrdersByStore(storeID);
             List<OrderDTO> toReturn = new List<OrderDTO>();
@@ -52,7 +52,7 @@ namespace StoreApp.WebUI.Controllers
         }
 
         [HttpGet("api/ordersByCustomer")]
-        public IEnumerable<Order> GetOrderByCustomer(int customerID)
+        public IEnumerable<Order> GetOrdersByCustomer(int customerID)
         {
             return _orderRepository.GetOrdersByCustomer(customerID);
         }
@@ -77,17 +77,20 @@ namespace StoreApp.WebUI.Controllers
         }
 
         [HttpPost("api/orderAdd")]
-        public void AddOrder(int storeID, int customerID, List<ProductDTO> products)
+        public void AddOrder(NewOrderDTO newOrder)
         {
-            Store store = _storeRepository.GetStoreByID(storeID);
-            Customer customer = _customerRepository.GetCustomerByID(customerID);
+            Store store = _storeRepository.GetStoreByID(newOrder.StoreId);
+            Customer customer = _customerRepository.GetCustomerByID(newOrder.CustomerId);
             Order order = new Order(customer, store);
-            foreach(var item in products)
+            foreach(var item in newOrder.Items)
             {
                 Product p = _productRepository.GetProductByID((int)item.ID);
                 order.AddNewItemToCart(p, (int)item.Quantity);
             }
-            _orderRepository.AddOrder(order);
+            order.SubmitOrder();
+            int orderID = _orderRepository.AddOrder(order);
+            order.ID = orderID;
+            _orderRepository.UpdateOrder(order);
             _storeRepository.UpdateStore(order.Store);
         }
 
