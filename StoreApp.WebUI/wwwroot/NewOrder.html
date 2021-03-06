@@ -9,20 +9,22 @@
     <form id="new-order-form">
         <label>
             Choose a customer to order for:
-            <select id="customer-select-dropdown">
+            <select id="customer-select-dropdown" name="customer">
             </select>
         </label>
         <br />
-        <label>
-            Product:
-            <select id="product-select-dropdown">
-            </select>
-        </label>
-        <label>
-            Quantity:
-            <input type="number" min="1" name="product-quantity" placeholder="Quantity"/>
-        </label>
-        <br />
+        <div id="items-container">
+            <label>
+                Product:
+                <select id="product-select-dropdown-1" name="product-1">
+                </select>
+            </label>
+            <label>
+                Quantity:
+                <input type="number" min="1" name="product-quantity-1" placeholder="Quantity" />
+            </label>
+            <br />
+        </div>
         <button id="new-product-button">Add a new item</button>
         <input id="submit-button" type="submit" value="Submit Order">
     </form>
