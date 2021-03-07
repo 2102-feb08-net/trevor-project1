@@ -1,4 +1,9 @@
 ﻿const customerTable = document.getElementById("customer-table");
+const customerTableBody = document.getElementById("customer-table-body");
+const customerSearchTable = document.getElementById("customer-search-table");
+const customerSearchTableBody = document.getElementById("customer-search-table-body");
+const searchForm = document.getElementById("customer-search");
+const errorMessage = document.getElementById("error-message");
 
 function loadCustomers() {
     return fetch('/api/customers').then(response => {
@@ -9,10 +14,25 @@ function loadCustomers() {
     });
 }
 
+function searchCustomers(firstName, lastName) {
+    return fetch(`api/customers?firstName=${firstName}&lastName=${lastName}`).then(response => {
+        if (!response.ok) {
+            throw new Error(`Network response was not ok (${response.status})`);
+        }
+        return response.json();
+    });
+}
+
+function resetTableBody(tableBody) {
+    while (tableBody.firstChild) {
+        tableBody.removeChild(tableBody.firstChild);
+    }
+}
+
 loadCustomers()
     .then(customers => {
         for (const customer of customers) {
-            const row = customerTable.insertRow();
+            const row = customerTableBody.insertRow();
             row.innerHTML = `<td>${customer.id}</td>
                        <td>${customer.firstName}</td>
                        <td>${customer.lastName}</td>
@@ -30,3 +50,42 @@ loadCustomers()
         errorMessage.textContent = error.toString();
         errorMessage.hidden = false;
     });
+
+searchForm.addEventListener("submit", event => {
+    event.preventDefault();
+    resetTableBody(customerSearchTableBody);
+    const firstName = searchForm.elements["first-name"].value;
+    const lastName = searchForm.elements["last-name"].value;
+
+    searchCustomers(firstName, lastName).then(customers => {
+        for (const customer of customers) {
+            const row = customerSearchTableBody.insertRow();
+            row.innerHTML = `<td>${customer.id}</td>
+                       <td>${customer.firstName}</td>
+                       <td>${customer.lastName}</td>
+                       <td>${customer.email}</td>
+                       <td>${customer.address}</td>`;
+            row.addEventListener('click', () => {
+                sessionStorage.setItem('customerId', customer.id);
+                location = 'CustomerDetails.html';
+            });
+        }
+
+        customerTable.hidden = true;
+        customerSearchTable.hidden = false;
+    })
+        .catch(error => {
+            errorMessage.textContent = error.toString();
+            errorMessage.hidden = false;
+        });
+});
+
+searchForm.addEventListener("reset", event => {
+    event.preventDefault();
+
+    searchForm.elements["first-name"].value = "";
+    searchForm.elements["last-name"].value = "";
+    resetTableBody(customerSearchTableBody);
+    customerSearchTable.hidden = true;
+    customerTable.hidden = false;
+});

@@ -5,6 +5,14 @@
     <title></title>
 </head>
 <body>
+    <form id="customer-search" method="GET">
+        First Name:
+        <input type="text" maxlength="20" name="first-name"/>
+        Last Name:
+        <input type="text" maxlength="20" name="last-name"/>
+        <input type="submit" value="Search" />
+        <input type="reset" value="Clear" />
+    </form>
     <table id="customer-table" border="1" hidden>
         <thead id="customer-table-head">
             <tr>
@@ -16,9 +24,24 @@
             </tr>
         </thead>
         <tbody id="customer-table-body">
-
         </tbody>
     </table>
+    <table id="customer-search-table" border="1" hidden>
+        <thead id="customer-table-head">
+            <tr>
+                <td>Customer ID</td>
+                <td>First name</td>
+                <td>Last name</td>
+                <td>Email</td>
+                <td>Address</td>
+            </tr>
+        </thead>
+        <tbody id="customer-search-table-body">
+        </tbody>
+    </table>
+
+    <div id="error-message"></div>
+
     <script src="Customers.js"></script>
 </body>
 </html>
