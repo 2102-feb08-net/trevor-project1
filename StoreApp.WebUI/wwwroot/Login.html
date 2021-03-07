@@ -15,12 +15,31 @@
                 <td>State</td>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="stores-table-body">
 
         </tbody>
     </table>
 
+    <form id="add-store-form" method="POST">
+        <b>Add a new store:</b>
+        <br />
+        <label>
+            Store name:
+            <input type="text" maxlength="50" name="name" />
+        </label>
+        <label>
+            City:
+            <input type="text" maxlength="50" name="city" />
+        </label>
+        <label>
+            State:
+            <input type="text" maxlength="50" name="state" />
+        </label>
+        <input type="submit" value="Add Store" />
+    </form>
+
     <div id="error-message" hidden></div>
+    <div id="success-message" hidden></div>
 
     <script src="Login.js"></script>
 </body>

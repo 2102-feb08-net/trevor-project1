@@ -11,7 +11,7 @@ namespace StoreApp.WebUI.Models
         public string Name { get; set; }
         public string City { get; set; }
         public string State { get; set; }
-        public decimal GrossProfit { get; set; }
+        public decimal? GrossProfit { get; set; }
 
         public StoreDTO()
         {

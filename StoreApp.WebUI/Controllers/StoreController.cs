@@ -98,9 +98,16 @@ namespace StoreApp.WebUI.Controllers
         }
 
         [HttpPost("api/storeAdd")]
-        public void AddStore(Store store)
+        public void AddStore(StoreDTO store)
         {
-            _storeRepository.AddStore(store);
+            Store newStore = new Store
+            {
+                Name = store.Name,
+                City = store.City,
+                State = store.State,
+                GrossProfit = 0
+            };
+            _storeRepository.AddStore(newStore);
         }
 
         [HttpPost("api/storeDelete")]
