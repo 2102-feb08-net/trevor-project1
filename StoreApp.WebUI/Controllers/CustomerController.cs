@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BLL.Models;
 using DAL.Repositories;
+using StoreApp.WebUI.Models;
 
 namespace StoreApp.WebUI.Controllers
 {
@@ -32,9 +33,16 @@ namespace StoreApp.WebUI.Controllers
         }
 
         [HttpPost("api/customerAdd")]
-        public void AddCustomer(Customer customer)
+        public void AddCustomer(CustomerDTO customer)
         {
-            _customerRepository.AddCustomer(customer);
+            Customer toAdd = new Customer
+            {
+                FirstName = customer.FirstName,
+                LastName = customer.LastName,
+                Email = customer.Email,
+                Address = customer.Address
+            };
+            _customerRepository.AddCustomer(toAdd);
         }
 
         [HttpPost("api/customerDelete")]

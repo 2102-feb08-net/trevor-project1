@@ -3,7 +3,9 @@ const customerTableBody = document.getElementById("customer-table-body");
 const customerSearchTable = document.getElementById("customer-search-table");
 const customerSearchTableBody = document.getElementById("customer-search-table-body");
 const searchForm = document.getElementById("customer-search");
+const addCustomerForm = document.getElementById("add-customer-form");
 const errorMessage = document.getElementById("error-message");
+const successMessage = document.getElementById("success-message");
 
 function loadCustomers() {
     return fetch('/api/customers').then(response => {
@@ -11,6 +13,20 @@ function loadCustomers() {
             throw new Error(`Network response was not ok (${response.status})`);
         }
         return response.json();
+    });
+}
+
+function addCustomer(customer) {
+    return fetch(`api/customerAdd`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(customer)
+    }).then(response => {
+        if (!response.ok) {
+            throw new Error(`Network response was not ok (${response.status})`);
+        }
     });
 }
 
@@ -88,4 +104,27 @@ searchForm.addEventListener("reset", event => {
     resetTableBody(customerSearchTableBody);
     customerSearchTable.hidden = true;
     customerTable.hidden = false;
+});
+
+addCustomerForm.addEventListener("submit", event => {
+    event.preventDefault();
+
+    successMessage.hidden = true;
+    errorMessage.hidden = true;
+
+    const customer = {
+        firstName: addCustomerForm.elements["first-name"].value,
+        lastName: addCustomerForm.elements["last-name"].value,
+        email: addCustomerForm.elements["email"].value,
+        address: addCustomerForm.elements["address"].value,
+    }
+
+    addCustomer(customer).then(() => {
+        successMessage.textContent = 'Customer added successfully';
+        successMessage.hidden = false;
+    })
+        .catch(error => {
+            errorMessage.textContent = error.toString();
+            errorMessage.hidden = false;
+        });
 });

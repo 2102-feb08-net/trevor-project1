@@ -40,6 +40,29 @@
         </tbody>
     </table>
 
+    <form id="add-customer-form" method="POST">
+        Add a new customer:
+        <label>
+            First name:
+            <input type="text" maxlength="20" name="first-name" />
+        </label>
+        <label>
+            Last name:
+            <input type="text" maxlength="20" name="last-name" />
+        </label>
+        <label>
+            Email:
+            <input type="email" name="email" />
+        </label>
+        <label>
+            Home Address:
+            <input type="text" maxlength="200" name="address" />
+        </label>
+        <input type="submit" value="Add Customer" />
+    </form>
+    
+
+    <div id="success-message"></div>
     <div id="error-message"></div>
 
     <script src="Customers.js"></script>
