@@ -1,4 +1,5 @@
 ﻿const inventoryTable = document.getElementById("inventory-table");
+const inventoryTableBody = document.getElementById("inventory-table-body");
 const editDropdown = document.getElementById("product-edit-select");
 const addItemForm = document.getElementById("add-item-form");
 const editItemForm = document.getElementById("edit-item-form");
@@ -13,6 +14,12 @@ function loadInventory(storeId) {
         }
         return response.json();
     });
+}
+
+function clearTableBody(tableBody) {
+    while (tableBody.firstChild) {
+        tableBody.removeChild(tableBody.firstChild);
+    }
 }
 
 function addItem(item, storeId) {
@@ -45,7 +52,7 @@ function populateTable(storeId) {
     loadInventory(storeId)
         .then(inventory => {
             for (const item of inventory) {
-                const row = inventoryTable.insertRow();
+                const row = inventoryTableBody.insertRow();
                 const option = document.createElement("option");
                 row.innerHTML = `<td>${item.id}</td>
                        <td>${item.name}</td>
@@ -81,6 +88,9 @@ addItemForm.addEventListener('submit', event => {
     addItem(product, storeID).then(() => {
         successMessage.textContent = 'Product added successfully';
         successMessage.hidden = false;
+        clearTableBody(inventoryTableBody);
+        clearTableBody(editDropdown);
+        populateTable(storeID);
     })
         .catch(error => {
             errorMessage.textContent = error.toString();
@@ -102,6 +112,9 @@ editItemForm.addEventListener('submit', event => {
     editQuantity(product, storeID).then(() => {
         successMessage.textContent = 'Product quantity updated successfully';
         successMessage.hidden = false;
+        clearTableBody(inventoryTableBody);
+        clearTableBody(editDropdown);
+        populateTable(storeID);
     })
         .catch(error => {
             errorMessage.textContent = error.toString();
