@@ -21,3 +21,21 @@ li a {
 li a:hover {
     background-color: #111;
 }
+
+
+table {
+    border-collapse: collapse;
+}
+
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+thead tr {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.clickable tr:hover {
+    background-color: #ddd;
+}

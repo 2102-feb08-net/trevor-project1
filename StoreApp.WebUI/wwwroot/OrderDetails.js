@@ -1,4 +1,5 @@
 ﻿const orderDetailsTable = document.getElementById("order-details-table");
+const orderDetailsTableBody = document.getElementById("order-details-table-body");
 const errorMessage = document.getElementById("error-message");
 const successMessage = document.getElementById("success-message");
 const welcomeHeader = document.getElementById("order-details-header");
@@ -18,7 +19,7 @@ function populateOrderDetailsTable(orderId) {
     loadOrderDetails(orderId)
         .then(order => {
             for (const item of order) {
-                const row = orderDetailsTable.insertRow();
+                const row = orderDetailsTableBody.insertRow();
                 row.innerHTML = `<td>${item.id}</td>
                        <td>${item.name}</td>
                        <td>\$${item.price}</td>

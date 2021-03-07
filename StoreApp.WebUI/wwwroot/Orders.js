@@ -1,4 +1,5 @@
 ﻿const ordersTable = document.getElementById("orders-table");
+const ordersTableBody = document.getElementById("orders-table-body");
 const storeID = sessionStorage.getItem("storeId");
 
 function loadOrders(storeId) {
@@ -14,7 +15,7 @@ function populateOrdersTable(storeId) {
     loadOrders(storeId)
         .then(orders => {
             for (const item of orders) {
-                const row = ordersTable.insertRow();
+                const row = ordersTableBody.insertRow();
                 row.innerHTML = `<td>${item.id}</td>
                        <td>${item.customerName}</td>
                        <td>\$${item.totalPrice}</td>
