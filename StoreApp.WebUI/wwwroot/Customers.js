@@ -45,27 +45,31 @@ function resetTableBody(tableBody) {
     }
 }
 
-loadCustomers()
-    .then(customers => {
-        for (const customer of customers) {
-            const row = customerTableBody.insertRow();
-            row.innerHTML = `<td>${customer.id}</td>
+function populateCustomersTable() {
+    loadCustomers()
+        .then(customers => {
+            for (const customer of customers) {
+                const row = customerTableBody.insertRow();
+                row.innerHTML = `<td>${customer.id}</td>
                        <td>${customer.firstName}</td>
                        <td>${customer.lastName}</td>
                        <td>${customer.email}</td>
                        <td>${customer.address}</td>`;
-            row.addEventListener('click', () => {
-                sessionStorage.setItem('customerId', customer.id);
-                location = 'CustomerDetails.html';
-            });
-        }
+                row.addEventListener('click', () => {
+                    sessionStorage.setItem('customerId', customer.id);
+                    location = 'CustomerDetails.html';
+                });
+            }
 
-        customerTable.hidden = false;
-    })
-    .catch(error => {
-        errorMessage.textContent = error.toString();
-        errorMessage.hidden = false;
-    });
+            customerTable.hidden = false;
+        })
+        .catch(error => {
+            errorMessage.textContent = error.toString();
+            errorMessage.hidden = false;
+        });
+}
+
+populateCustomersTable();
 
 searchForm.addEventListener("submit", event => {
     event.preventDefault();
@@ -122,6 +126,8 @@ addCustomerForm.addEventListener("submit", event => {
     addCustomer(customer).then(() => {
         successMessage.textContent = 'Customer added successfully';
         successMessage.hidden = false;
+        resetTableBody(customerTableBody);
+        populateCustomersTable();
     })
         .catch(error => {
             errorMessage.textContent = error.toString();

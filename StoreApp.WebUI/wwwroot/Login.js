@@ -13,6 +13,12 @@ function loadStores() {
     });
 }
 
+function clearTableBody(tableBody) {
+    while (tableBody.firstChild) {
+        tableBody.removeChild(tableBody.firstChild);
+    }
+}
+
 function addStore(store) {
     return fetch(`api/storeAdd`, {
         method: 'POST',
@@ -27,26 +33,30 @@ function addStore(store) {
     });
 }
 
-loadStores()
-    .then(stores => {
-        for (const store of stores) {
-            const row = storesTableBody.insertRow();
-            row.innerHTML = `<td>${store.id}</td>
+function populateStoresTable() {
+    loadStores()
+        .then(stores => {
+            for (const store of stores) {
+                const row = storesTableBody.insertRow();
+                row.innerHTML = `<td>${store.id}</td>
                        <td>${store.name}</td>
                        <td>${store.city}</td>
                        <td>${store.state}</td>`;
-            row.addEventListener('click', () => {
-                sessionStorage.setItem('storeId', store.id);
-                location = 'StoreHome.html';
-            });
-        }
+                row.addEventListener('click', () => {
+                    sessionStorage.setItem('storeId', store.id);
+                    location = 'StoreHome.html';
+                });
+            }
 
-        storesTable.hidden = false;
-    })
-    .catch(error => {
-        errorMessage.textContent = error.toString();
-        errorMessage.hidden = false;
-    });
+            storesTable.hidden = false;
+        })
+        .catch(error => {
+            errorMessage.textContent = error.toString();
+            errorMessage.hidden = false;
+        });
+}
+
+populateStoresTable();
 
 addStoreForm.addEventListener("submit", event => {
     event.preventDefault();
@@ -63,6 +73,8 @@ addStoreForm.addEventListener("submit", event => {
     addStore(store).then(() => {
         successMessage.textContent = 'Store added successfully';
         successMessage.hidden = false;
+        clearTableBody(storesTableBody);
+        populateStoresTable();
     })
         .catch(error => {
             errorMessage.textContent = error.toString();
