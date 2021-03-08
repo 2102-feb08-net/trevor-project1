@@ -20,5 +20,38 @@ namespace Models.Tests
             Assert.Equal(email, c.Email);
             Assert.Equal(address, c.Address);
         }
+
+        [Fact]
+        public void TestCustomerInvalidFirstName()
+        {
+            string firstName = "123@adslf";
+            string lastName = "Dunbar";
+            string email = "tdunbar123@yahoo.com";
+            string address = "555 main street";
+
+            Assert.Throws<ArgumentException>(() => new Customer(firstName, lastName, email, address));
+        }
+
+        [Fact]
+        public void TestCustomerInvalidLastName()
+        {
+            string firstName = "Trevor";
+            string lastName = "123@adslf";
+            string email = "tdunbar123@yahoo.com";
+            string address = "555 main street";
+
+            Assert.Throws<ArgumentException>(() => new Customer(firstName, lastName, email, address));
+        }
+
+        [Fact]
+        public void TestCustomerInvalidAddress()
+        {
+            string firstName = "Trevor";
+            string lastName = "Dunbar";
+            string email = "tdunbar123@yahoo.com";
+            string address = "555 @#$ main street";
+
+            Assert.Throws<ArgumentException>(() => new Customer(firstName, lastName, email, address));
+        }
     }
 }
