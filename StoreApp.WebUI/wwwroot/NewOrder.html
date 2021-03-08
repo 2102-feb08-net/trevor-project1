@@ -32,19 +32,19 @@
     <form id="new-order-form" method="POST">
         <label>
             Choose a customer to order for:
-            <select id="customer-select-dropdown" name="customer">
+            <select id="customer-select-dropdown" name="customer" required>
             </select>
         </label>
         <br />
         <div id="items-container">
             <label>
                 Product:
-                <select id="product-select-dropdown-1" name="product-1">
+                <select id="product-select-dropdown-1" name="product-1" required>
                 </select>
             </label>
             <label>
                 Quantity:
-                <input type="number" min="1" name="product-quantity-1" placeholder="Quantity" />
+                <input type="number" min="1" name="product-quantity-1" placeholder="Quantity" required />
             </label>
             <br />
         </div>

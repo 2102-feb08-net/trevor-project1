@@ -131,7 +131,7 @@ newProductButton.addEventListener("click", event => {
 	productSelector.name = `product-${productLines}`;
 
 	productLabel.innerHTML = `Product: `;
-	quantityLabel.innerHTML = ` Quantity: <input type="number" min="1" name="product-quantity-${productLines}" placeholder="Quantity" />`;
+	quantityLabel.innerHTML = ` Quantity: <input type="number" min="1" name="product-quantity-${productLines}" placeholder="Quantity" required />`;
 
 	productLabel.appendChild(productSelector);
 
