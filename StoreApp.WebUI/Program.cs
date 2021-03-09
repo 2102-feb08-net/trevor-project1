@@ -18,9 +18,16 @@ namespace StoreApp.WebUI
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+            .ConfigureLogging((hostContext, logging) =>
+            {
+                logging.AddConfiguration(hostContext.Configuration.GetSection("Logging"));
+                logging.AddConsole();
+                logging.AddDebug();
+                logging.AddEventSourceLogger();
+            })
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>();
+            });
     }
 }
