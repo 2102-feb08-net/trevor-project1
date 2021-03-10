@@ -11,9 +11,15 @@ function loadOrders(storeId) {
     });
 }
 
-function formatDateTime(dateTime) {
-    let date = new Date(Date.parse(dateTime));
-    return date.toUTCString();
+function formatDate(date) {
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    let amOrPm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; 
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    let strTime = hours + ':' + minutes + ' ' + amOrPm;
+    return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear() + " " + strTime;
 }
 
 function populateOrdersTable(storeId) {
@@ -21,7 +27,7 @@ function populateOrdersTable(storeId) {
         .then(orders => {
             for (const item of orders) {
                 const row = ordersTableBody.insertRow();
-                let orderTime = formatDateTime(item.orderTime);
+                let orderTime = formatDate(item.orderTime);
                 row.innerHTML = `<td>${item.id}</td>
                        <td>${item.customerName}</td>
                        <td>\$${item.totalPrice}</td>
