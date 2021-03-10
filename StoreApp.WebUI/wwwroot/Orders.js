@@ -11,15 +11,21 @@ function loadOrders(storeId) {
     });
 }
 
+function formatDateTime(dateTime) {
+    let date = new Date(Date.parse(dateTime));
+    return date.toUTCString();
+}
+
 function populateOrdersTable(storeId) {
     loadOrders(storeId)
         .then(orders => {
             for (const item of orders) {
                 const row = ordersTableBody.insertRow();
+                let orderTime = formatDateTime(item.orderTime);
                 row.innerHTML = `<td>${item.id}</td>
                        <td>${item.customerName}</td>
                        <td>\$${item.totalPrice}</td>
-                       <td>${item.orderTime}</td>`;
+                       <td>${orderTime}</td>`;
                 row.addEventListener('click', () => {
                     sessionStorage.setItem('orderId', item.id);
                     location = 'OrderDetails.html';
