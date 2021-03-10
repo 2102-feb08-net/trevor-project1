@@ -11,7 +11,8 @@ function loadOrders(storeId) {
     });
 }
 
-function formatDate(date) {
+function formatDate(dateTime) {
+    let date = new Date(Date.parse(dateTime));
     let hours = date.getHours();
     let minutes = date.getMinutes();
     let amOrPm = hours >= 12 ? 'pm' : 'am';

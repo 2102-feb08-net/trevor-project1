@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/2102-dunbar-sql/databases/Project0",
+      "type": "mssql.azure",
+      "connectionId": "Project1DB",
+      "secretStore": "AzureAppSettings"
+    }
+  }
+}
